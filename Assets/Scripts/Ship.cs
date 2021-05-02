@@ -7,6 +7,7 @@ public class Ship : MonoBehaviour
     public float speed;
     public Vector3 initialPosition;
     public float screenBoundary;
+    public GameObject shot;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,13 @@ public class Ship : MonoBehaviour
         }
         else if (Input.GetKey("left")) {
             transform.Translate(-translationAmount, 0, 0);
+        }
+        if (Input.GetKeyDown("space")) {
+            Instantiate(
+                shot,
+                new Vector3(transform.position.x, transform.position.y, 0.5f),
+                Quaternion.identity
+            );
         }
         if(transform.position.x > screenBoundary) {
             transform.position = new Vector3(screenBoundary, transform.position.y, transform.position.z);
