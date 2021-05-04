@@ -301,7 +301,7 @@ MonoBehaviour:
   speed: 5
   initialPosition: {x: 0, y: -2.8, z: 0}
   screenBoundary: 5
-  shot: {fileID: 2637555446048348991, guid: fb56c523bfed54641843be0546a81654, type: 3}
+  shot: {fileID: 2293448744167669501, guid: fb56c523bfed54641843be0546a81654, type: 3}
 --- !u!1 &947133969
 GameObject:
   m_ObjectHideFlags: 0
