@@ -10,6 +10,8 @@ namespace Pool
     {
         private Manager _instance;
 
+        public List<Config> poolConfig;
+
         private static Dictionary<ObjectTypes, Producer<Object>>
             producers = new Dictionary<ObjectTypes, Producer<Object>>();
 
@@ -33,6 +35,16 @@ namespace Pool
             }
             _instance = this;
             DontDestroyOnLoad (gameObject);
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            foreach (Config config in poolConfig)
+            {
+                var (objectType, size, position) = config;
+                Manager.producers[objectType].Initialize(size, position);
+            }
         }
 
         public static void AddProducer(Object @object)
@@ -40,10 +52,7 @@ namespace Pool
             var type = @object.poolObjectType;
             if (!Manager.producers.ContainsKey(type))
             {
-                Manager
-                    .producers
-                    .Add(type,
-                    new Producer<Object>(@object, new Vector3(0, 0, 0)));
+                Manager.producers.Add(type, new Producer<Object>(@object));
             }
         }
     }

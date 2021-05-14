@@ -5,18 +5,22 @@ namespace Pool
 {
     class Producer<Element> where Element : Object
     {
-        public Vector3 position;
+        internal Vector3 position;
 
-        public readonly Element poolObject;
+        public readonly Element element;
 
-        private readonly ObjectTypes type;
+        internal int size;
 
-        public Producer(Element element, Vector3 position)
+        public Producer(Element element)
         {
-            this.position = position;
-            this.poolObject = element;
+            this.element = element;
             Object.onPush += Push;
-            this.type = element.poolObjectType;
+        }
+
+
+        public void Initialize(int size, Vector3 position) {
+            this.size = size;
+            this.position = position;
         }
 
         private Stack<Element> pool = new Stack<Element>();
@@ -30,16 +34,21 @@ namespace Pool
             }
             return UnityEngine
                 .Object
-                .Instantiate<Element>(poolObject,
-                position,
-                Quaternion.identity);
+                .Instantiate<Element>(element, position, Quaternion.identity);
         }
 
-        public void Push(Object element)
+        public void Push(Object @object)
         {
-            if (type == element.poolObjectType)
+            if (element.poolObjectType == @object.poolObjectType)
             {
-                pool.Push(element.ReadyToPush(position) as Element);
+                if (pool.Count + 1 <= size)
+                {
+                    pool.Push(@object.ReadyToPush(position) as Element);
+                }
+                else
+                {
+                    Object.Destroy(@object.gameObject);
+                }
             }
         }
     }
