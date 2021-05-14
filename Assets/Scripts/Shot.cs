@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pool;
 
-public class Shot : PoolObject
+public class Shot : Pool.Object
 {
     public float speed;
 
@@ -23,10 +24,8 @@ public class Shot : PoolObject
         return transform.position.y > 6.0f;
     }
 
-    public override PoolObject ResetProps()
+    public override Pool.Object ResetProps()
     {
         return this;
     }
-
-    public override int GetPoolObjectType() => (int) PoolObjectTypes.Shot;
 }
